@@ -1,0 +1,8 @@
+body {
+  margin: 0;
+  background-image: url("tlo1920.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: cornflowerblue;
+  overflow-y: hidden;
+}
