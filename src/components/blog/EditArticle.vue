@@ -1,3 +1,49 @@
+<script setup>
+import { reactive, onMounted } from 'vue';
+import axios from 'axios';
+
+const prop = defineProps(["id"]);
+const emit = defineEmits(["submited"]);
+const article = reactive({
+    title: "",
+    intro: "",
+    content: ""
+});
+
+onMounted(() => {
+    axios.post('/getArticle', {params: {id: prop.id}}, {withCredentials: true})
+        .then((res) => {
+            article.title = res.data[0].TITLE;
+            article.intro = res.data[0].INTRO;
+            article.content = res.data[0].CONTENT;
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+}) 
+function abort() {
+    emit("submited");
+}
+function update() {
+    axios.post('/updateArticle', {
+        params: {
+            id: prop.id,
+            title: article.title,
+            intro: article.intro,
+            content: article.content
+        }},
+        {withCredentials: true}
+    )
+    .then((res) => {
+        console.log(res);
+        emit("submited");
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
+</script>
+
 <template>
   <div class="editContainer">
     <div>
@@ -6,73 +52,16 @@
     <div class="formContainer">
         <form>
             <label for="title">Tytuł</label><br>
-            <input v-model="title" class="generalSet" type="text" maxlength="255" id="titile"><br>
+            <input v-model="article.title" class="generalSet" type="text" maxlength="255" id="titile"><br>
             <label for="intro">Wstęp</label><br>
-            <textarea v-model="intro" class="generalSet" maxlength="300" id="intro" rows="4"></textarea><br>
+            <textarea v-model="article.intro" class="generalSet" maxlength="300" id="intro" rows="4"></textarea><br>
             <label for="content">Treść</label><br>
-            <textarea v-model="content" class="generalSet" maxlength="3000" id="content" rows="20"></textarea><br>
+            <textarea v-model="article.content" class="generalSet" maxlength="3000" id="content" rows="20"></textarea><br>
             <button @click.prevent="update" class="submitButton">Modyfikuj</button> <button @click.prevent="abort" class="abortButton">Anuluj</button>
         </form>
     </div>
   </div>
 </template>
-
-<script>
-import axios from 'axios';
-export default {
-    name: "EditArticle",
-    props: ['articleId'],
-    emits: ['edited'],
-    data() {
-        return {
-            title: "",
-            intro: "",
-            content: ""
-        }
-    },
-    created() {
-        console.log(this.$route.params.id);
-        axios.post('/getArticle', {
-            params: {
-                id: this.articleId
-                }
-            }, {withCredentials: true})
-            .then((res) => {
-                this.title = res.data[0].TITLE;
-                this.intro = res.data[0].INTRO;
-                this.content = res.data[0].CONTENT;
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    },
-    methods: {
-        abort() {
-            this.$emit("edited");
-        },
-        update() {
-            let data = {
-                id: this.articleId,
-                title: this.title,
-                intro: this.intro,
-                content: this.content
-            }
-            axios.post('/updateArticle', {
-                params: data
-                }, {withCredentials: true})
-                .then((res) => {
-                    console.log(res.data);
-                    this.$emit("edited");
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-    }
-
-
-}
-</script>
 
 <style scoped>
 .editContainer {

@@ -1,3 +1,60 @@
+<script setup>
+import axios from "axios";
+import { reactive, ref } from 'vue';
+const emit = defineEmits(["authenticated"]);
+const loginData = reactive({
+    nickName: "",
+    pass: ""
+});
+const response = ref("");
+const waitCounter = ref(0);
+
+function logIn() {
+    let firstLetter = loginData.pass.charAt(0);
+    let lastLetter = loginData.pass.charAt(loginData.pass.length - 1);
+    axios.get('/loginFirst', { params: {
+        login: loginData.nickName,
+        first: firstLetter,
+        last: lastLetter
+    }}, {withCredentials: true})
+    .then(() => {
+       getSession();
+    })
+    .catch((err) => {
+        console.log(err);
+        waitCounter.value = 15;
+        wait();
+    })
+}
+
+function wait() {
+    response.value = "Poczekaj " + waitCounter.value + " sekund.";
+    if (waitCounter.value > 0) {
+        waitCounter.value--;
+        setTimeout(() => {
+            wait()
+        }, 1000);
+    }
+    else {
+        response.value = "Spróbuj ponownie się zalogować.";
+    }
+}
+
+function getSession() {
+    //todo dopisać szyfrowanie hasła
+    axios.get('/getCookie', { params: {
+        login: loginData.nickName,
+        pass: loginData.pass
+    }}, {withCredentials: true})
+    .then(() => {
+        emit("authenticated");
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
+</script>
+
 <template>
     <div class="container">
         <div class="wrapper">
@@ -5,85 +62,18 @@
                 <fieldset>
                     <legend> Logowanie </legend>
                     <label for="nickname"> Użytkownik </label><br>
-                    <input type="text" v-model="nickName" id="nickname" maxlength="25" autofocus> 
+                    <input type="text" v-model="loginData.nickName" id="nickname" maxlength="25" autofocus> 
                     <br><br>
                     <label for="pass"> Hasło </label><br>
-                    <input type="password" v-model="pass" id="pass" maxlength="25">
+                    <input type="password" v-model="loginData.pass" id="pass" maxlength="25">
                     <br><br>
                     <button class="myButton" @click.prevent="logIn">Zaloguj</button>
                 </fieldset>
             </form>
-        {{resp}}
+        {{response}}
         </div>
     </div>
 </template>
-
-<script>
-import axios from 'axios'
-
-export default {
-    name: 'LoginForm',
-    data() {
-        return {
-            nickName: "",
-            pass: "",
-            resp: "",
-            counter: "",
-            logged: false
-        }
-    },
-    methods: {
-        logIn() {
-            let firstLetter = this.pass.charAt(0);
-            let lastLetter = this.pass.charAt(this.pass.length - 1);
-            axios.get('/login', { 
-                params :{ 
-                    login: this.nickName,
-                    first: firstLetter,
-                    last: lastLetter,
-
-                }}, {withCredentials: true})
-                .then((res) => {
-                    this.resp = res.data;
-                    // console.log("pierwsze ciastko");
-                    this.getSession();
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.counter = 15;
-                    this.wait();
-                })
-        },
-        wait() {
-            this.resp = "Poczekaj " + this.counter + " sekund(y).";
-            if (this.counter > 0) {
-                this.counter--;
-                setTimeout(this.wait, 1000);
-            }
-            else {
-                this.resp = "Spróbuj ponownie się zalogować";
-            }
-        },
-        getSession() {
-            //todo dopisać zabezpieczenie hasła
-            axios.get('/getCookie', {
-                params: {
-                    pass: this.pass
-                }}, {withCredentials: true})
-                .then((res) => {
-                    // console.log("drugie ciastko");
-                    this.resp = res.data;
-                    this.logged = true;
-                    this.$emit('authenticated');
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        } 
-    }
-
-}
-</script>
 
 <style scoped>
 .container {

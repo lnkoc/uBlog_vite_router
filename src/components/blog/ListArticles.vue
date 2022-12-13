@@ -1,5 +1,39 @@
+<script setup>
+import {ref, onMounted} from 'vue';
+import axios from 'axios';
+
+const emit = defineEmits(["editArticle"]);
+const list = ref([]);
+
+onMounted(() => {
+  refresh();
+})
+
+function refresh() {
+  axios.get("/getList", {withCredentials: true})
+    .then((res) => {
+      list.value = res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+}
+
+function openArticle(id) {
+  emit("editArticle", id);
+}
+
+function deleteArticle(deleteId) {
+  axios.post('/deleteArticle', {params: {id: deleteId}}, {withCredentials: true})
+    .catch((err) => {
+      console.log(err);
+    });
+  refresh();
+}
+</script>
+
 <template>
-  <div v-if="!edit" class="listContainer">
+  <div class="listContainer">
     <div>
       <div> 
         <h2>Lista artykułów</h2>
@@ -16,59 +50,9 @@
       </div>
     </div>
   </div>
-  <RouterView v-else :articleId="editId" @edited="closeEdit" />
 </template>
 
-<script>
-import axios from 'axios'
-export default {
-  name: "ListArticles",
-  data() {
-    return {
-      list: [],
-      edit: false,
-      editId: ""
-    }
-  },
-  mounted() {
-    this.refresh();
-  },
-  methods: {
-    refresh() {
-      axios.get("/getList", {withCredentials: true})
-          .then((res) => {
-            this.list = res.data;
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-    },
-    openArticle(id) {
-      this.$router.push('/dashboard/edit/' + id);
-      this.editId = id;
-      this.edit = true;     
-    },
-    closeEdit() {
-      this.$router.push('/dashboard/list');
-      this.edit = false;
-      this.refresh();
-    },
-    deleteArticle(articleId) {
-      axios.post('/deleteArticle', {
-        params: {
-          id: articleId
-          }}, {withCredentials: true}
-      )
-      .catch((err) => {
-        console.log(err);
-      });
-      this.refresh();
-    }
-  }
-}
-</script>
-
-<style>
+<style scoped>
 .listContainer {
   padding: 35px;
   min-height: 83vh;

@@ -1,23 +1,23 @@
 <script setup>
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
-const state = reactive({isAuthenticated: false});
+const isAuthenticated = ref(false);
 const router = useRouter();
 
 function openDashboard() {
-  state.isAuthenticated = true;
+  isAuthenticated.value = true; 
   router.replace("/dashboard");
 }
 
 function closeDashboard() {
-  state.isAuthenticated = false;
+  isAuthenticated.value = false;
   router.replace('/');
 }
 </script>
 
 <template>
-  <header v-if="!state.isAuthenticated">
+  <header v-if="!isAuthenticated">
     <div class="wrapper">
       <div class="logo">
         <div class="column">
