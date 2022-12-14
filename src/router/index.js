@@ -12,6 +12,7 @@ const router = createRouter({
         {
           path: '/articles/:date',
           name: 'ShowArticle',
+          props: true,
           component: () => import('../views/ShowArticle.vue')
         }
       ]

@@ -1,3 +1,9 @@
+<!-- <script setup>
+
+
+
+</script> -->
+
 <template>
   <div class="wrapper">
     <div class="content">
@@ -12,7 +18,7 @@
                 </div><br>
             </template>
         </div>
-        <RouterView v-else :articleId="openId" @close="closed"/>
+        <RouterView v-else :articleId="openId" @close="closed" />
     </div>
   </div>
 </template>
@@ -25,10 +31,12 @@ export default {
         return {
             list: [],
             showList: true,
-            openId: ""
+            openId: "",
+            toggle: true
         }
     },
     created() {
+        console.log("uBlog created ----------");
         this.refresh();
     },
     methods: {
@@ -49,9 +57,9 @@ export default {
             this.showList = false;
         },
         closed() {
-            this.$router.push('/');
             this.openId = "";
             this.showList = true;
+            this.$router.push('/');
         }
     }
 }

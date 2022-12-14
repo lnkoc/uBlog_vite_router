@@ -4,6 +4,11 @@ import { ref } from 'vue'
 
 const isAuthenticated = ref(false);
 const router = useRouter();
+const update = ref(0);
+
+function refresh() {
+  update.value++;
+}
 
 function openDashboard() {
   isAuthenticated.value = true; 
@@ -29,7 +34,7 @@ function closeDashboard() {
           <img alt="MyType" src="./assets/koc.png">
         </div>
       </div>
-      <nav>
+      <nav @click="refresh">
         <RouterLink to="/"><div>uBlog</div></RouterLink>
         <RouterLink to="/about"><div>O mnie</div></RouterLink>
         <RouterLink to="/hobby"><div>Hobby</div></RouterLink>
@@ -39,7 +44,7 @@ function closeDashboard() {
     </div>
   </header>
 
-  <RouterView @authenticated='openDashboard()' @logout='closeDashboard()' />
+  <RouterView @authenticated='openDashboard()' @logout='closeDashboard()' :key="update"/>
 
   <footer>
     <div>© lnkoc 2022
