@@ -1,3 +1,7 @@
+<script setup>
+
+</script>
+
 <template>
   <div class="wrapper">
     <div class="content">
@@ -9,12 +13,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-    name: 'MyProjects'
-}
-</script>
 
 <style scoped>
 .wrapper {

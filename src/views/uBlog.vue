@@ -1,8 +1,34 @@
-<!-- <script setup>
+<script setup>
+import axios from 'axios';
+import { ref, onMounted} from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
+const list = ref([]);
+const showList = ref(true);
+const openId = ref();
 
-
-</script> -->
+onMounted(() => {
+    axios.get('/getList')
+        .then((res) => {
+            for (let item in res.data) {
+                let date = res.data[item].CREATED.slice(0,10).split("-").reverse().join("-");
+                res.data[item].CREATED = date;
+                list.value.push(res.data[item]);
+            }
+        })
+})
+function loadArticle(id, created) {
+    openId.value = id;
+    showList.value = false;
+    router.push('/articles/' + created);
+}
+function closed() {
+    showList.value = true;
+    openId.value = "";
+    router.push('/');
+}
+</script>
 
 <template>
   <div class="wrapper">
@@ -22,48 +48,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import axios from 'axios'
-
-export default {
-    data() {
-        return {
-            list: [],
-            showList: true,
-            openId: "",
-            toggle: true
-        }
-    },
-    created() {
-        console.log("uBlog created ----------");
-        this.refresh();
-    },
-    methods: {
-        refresh() {
-            axios.get('/getList')
-            .then((res) => {
-                this.list = res.data;
-                for (let i in this.list) {
-                    let date = this.list[i].CREATED.slice(0,10).split("-").reverse().join("-");
-                    this.list[i].CREATED = date;
-
-                }
-            });
-        },
-        loadArticle(id, created) {
-            this.openId = id;
-            this.$router.push('/articles/' + created);
-            this.showList = false;
-        },
-        closed() {
-            this.openId = "";
-            this.showList = true;
-            this.$router.push('/');
-        }
-    }
-}
-</script>
 
 <style scoped>
 .wrapper {

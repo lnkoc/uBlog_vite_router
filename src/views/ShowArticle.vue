@@ -1,44 +1,38 @@
+<script setup>
+import axios from "axios";
+import { ref, onMounted } from 'vue';
+
+const prop = defineProps(["articleId"]);
+const emit = defineEmits(["close"]);
+
+const title = ref("");
+const createdDate = ref("");
+const content = ref("");
+
+onMounted(() => {
+    axios.get('/getEntireArticle', {params: { ID: prop.articleId}})
+        .then((res) => {
+            let date = res.data[0].CREATED.slice(0,10).split("-").reverse().join("/");
+            title.value = res.data[0].TITLE;
+            createdDate.value = date;
+            content.value = res.data[0].CONTENT;
+        })
+})
+function close() {
+    emit("close");
+}
+</script>
+
 <template>
   <div>
     <div class="article">
         <div class="title">{{title}}</div><br>
         {{createdDate}}<br><br>
         <span v-html="content"></span><br><br>
-        <button @click="close" class="closeButton">Powrót do listy artykułów</button>
+        <button @click="close()" class="closeButton">Powrót do listy artykułów</button>
     </div>
   </div>
 </template>
-
-<script>
-import axios from 'axios'
-export default {
-    name: "ShowArticle",
-    props: ['articleId'],
-    emits: ['close'],
-    data() {
-        return {
-            title: "",
-            createdDate: "",
-            intro: "",
-            content: ""
-        }
-    },
-    created() {
-            axios.get('/getEntireArticle', {params: {ID: this.articleId }})
-            .then((res) => {
-                let date = res.data[0].CREATED.slice(0,10).split("-").reverse().join("/");
-                this.title = res.data[0].TITLE;
-                this.createdDate = date;
-                this.content = res.data[0].CONTENT;
-            })
-    },
-    methods: {
-        close() {
-            this.$emit("close");
-        }
-    }  
-}
-</script>
 
 <style>
 .article {

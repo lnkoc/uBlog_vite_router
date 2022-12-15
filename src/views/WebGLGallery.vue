@@ -1,3 +1,44 @@
+<script setup>
+import { defineAsyncComponent } from '@vue/runtime-core';
+import { ref } from 'vue';
+import im7 from '@/assets/webgl_min/seven.jpg';
+import im17 from '@/assets/webgl_min/seventeen.jpg';
+import im10 from '@/assets/webgl_min/ten.jpg';
+import im20 from '@/assets/webgl_min/twenty.jpg';
+
+const SevenDemo = defineAsyncComponent(() => import('@/components/WebGL/SevenDemo.vue'));
+const SeventeenDemo = defineAsyncComponent(() => import('@/components/WebGL/SeventeenDemo.vue'));
+const TenDemo = defineAsyncComponent(() => import('@/components/WebGL/TenDemo.vue'));
+const TwentyDemo = defineAsyncComponent(() => import('@/components/WebGL/TwentyDemo.vue'));
+
+const miniatures = ref([im7, im17, im10, im20]);
+const demoActive = ref(false);
+const demoNumber = ref("");
+
+function openDemo(index) {
+  switch (index) {
+    case 0:
+      demoNumber.value = SevenDemo;
+      break;
+    case 1:
+      demoNumber.value = SeventeenDemo;
+      break;
+    case 2:
+      demoNumber.value = TenDemo;
+      break;
+    case 3:
+      demoNumber.value = TwentyDemo;
+      break;
+  }
+  demoActive.value = true;
+}
+
+function closeDemo() {
+  demoActive.value = false;
+  demoNumber.value = null;
+}
+</script>
+
 <template>
   <div class="demoContainer">
     <template v-for="min in miniatures" :key="min">
@@ -10,61 +51,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import { defineAsyncComponent } from '@vue/runtime-core';
-import im7 from '@/assets/webgl_min/seven.jpg'
-import im17 from '@/assets/webgl_min/seventeen.jpg'
-import im10 from '@/assets/webgl_min/ten.jpg'
-import im20 from '@/assets/webgl_min/twenty.jpg'
-
-export default {
-  name: 'WebGLGallery',
-  components: {
-    SevenDemo: defineAsyncComponent(() => import('@/components/WebGL/SevenDemo.vue')),
-    SeventeenDemo: defineAsyncComponent(() => import('@/components/WebGL/SeventeenDemo.vue')),
-    TenDemo: defineAsyncComponent(() => import('@/components/WebGL/TenDemo.vue')),
-    TwentyDemo: defineAsyncComponent(() => import('@/components/WebGL/TwentyDemo.vue'))
-  },
-  data() {
-    return {
-      miniatures: [im7, im17, im10, im20],
-      demoActive: false,
-      demoNumber: null
-    }
-  },
-  methods: {
-    openDemo(index) { 
-      switch (index) {
-        case 0:
-          this.demoNumber = 'SevenDemo';
-          console.log("zero czyli siedem");
-          break;
-        case 1:
-          this.demoNumber = 'SeventeenDemo';
-          console.log("jeden czyli siedemnaście");
-          break;
-        case 2:
-          this.demoNumber = 'TenDemo';
-          console.log("dwa czyli Dziesięć");
-          break;
-        case 3:
-          this.demoNumber = "TwentyDemo";
-          console.log("trzy czyli Dwadzieścia");
-          break;
-        default:
-          console.log("domyślny hehe");
-          break;
-      }
-      this.demoActive = true;
-    },
-    closeDemo() {
-      this.demoActive = false;
-      this.demoNumber = null;
-    }
-  }
-}
-</script>
 
 <style>
 .demoContainer {

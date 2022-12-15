@@ -1,3 +1,51 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import im1 from '/20220824_144254.jpg';
+import im2 from '/20220824_144302.jpg';
+import im3 from '/20220824_144307.jpg';
+import im4 from '/20220824_144321.jpg';
+import im5 from '/20220824_144325.jpg';
+import im6 from '/20220824_144329.jpg';
+import im7 from '/20220824_144331.jpg';
+import im8 from '/20220824_144351.jpg';
+import im9 from '/20220824_144354.jpg';
+
+const images = ref([im1, im2, im3, im4, im5, im6, im7, im8, im9]);
+const numberOfImages = ref(images.value.length);
+const currentImage = ref(0);
+
+onMounted(() => {
+  moveSlide();
+})
+
+function prevSlide() {
+  if (currentImage.value <= 0) {
+    currentImage.value = numberOfImages.value - 1;
+  }
+  else {
+    currentImage.value--;
+  }
+}
+
+function nextSlide() {
+  if (currentImage.value >= numberOfImages.value - 1) {
+    currentImage.value = 0;
+  }
+  else {
+    currentImage.value++;
+  }
+}
+
+function moveSlide() {
+  nextSlide();
+  setTimeout(() => moveSlide(), 5000);
+}
+
+function chooseImage(item) {
+  currentImage.value = item;
+}
+</script>
+
 <template>
   <div class="galleryContainer">
     
@@ -5,8 +53,8 @@
     <img :src="images[currentImage]" class="image" >    
     <div></div>
 
-    <a class="prev" @click="prevSlide">&#10094;</a>
-    <a class="next" @click="nextSlide">&#10095;</a>   
+    <a class="prev" @click="prevSlide()">&#10094;</a>
+    <a class="next" @click="nextSlide()">&#10095;</a>   
 
     <div class="circles">
       <template v-for="image in images" :key="image">
@@ -21,64 +69,6 @@
     
   </div>
 </template>
-
-<script>
-import im1 from '/20220824_144254.jpg'
-import im2 from '/20220824_144302.jpg'
-import im3 from '/20220824_144307.jpg'
-import im4 from '/20220824_144321.jpg'
-import im5 from '/20220824_144325.jpg'
-import im6 from '/20220824_144329.jpg'
-import im7 from '/20220824_144331.jpg'
-import im8 from '/20220824_144351.jpg'
-import im9 from '/20220824_144354.jpg'
-
-export default {
-    name: "MyGallery",
-    data() {
-      return {
-        images: [im1, im2, im3, im4, im5, im6, im7, im8, im9],
-        numberOfImages: "",
-        currentImage: ""
-      }
-    },
-    created() {
-      this.numberOfImages = this.images.length;
-      this.currentImage = 0;
-    },
-    mounted() {
-        this.moveSlide();
-    },
-    methods: {
-      prevSlide() {
-        if (this.currentImage <= 0) {
-          this.currentImage = this.numberOfImages -1;
-        }
-        else {
-          this.currentImage -= 1;
-        }
-      },
-      nextSlide() {
-        if (this.currentImage >= this.numberOfImages -1) {
-          this.currentImage = 0;
-        }
-        else {
-          this.currentImage += 1;
-        }
-      },
-      moveSlide() {
-        this.nextSlide();
-        setTimeout(() => this.moveSlide(), 5000);
-      },
-      chooseImage(item) {
-        this.currentImage = item;
-      },
-      enlarge(item) {
-        console.log(item.pathShort);
-      }
-    }
-}
-</script>
 
 <style scoped>
 

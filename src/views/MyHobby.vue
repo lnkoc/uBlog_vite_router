@@ -1,3 +1,9 @@
+<script setup>
+import MyGallery from './MyGallery.vue'
+import WebGLGallery from './WebGLGallery.vue'
+
+</script>
+
 <template>
   <div class="wrapper">
     <div class="content">
@@ -30,19 +36,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import MyGallery from './MyGallery.vue'
-import WebGLGallery from './WebGLGallery.vue'
-
-export default {
-  name: 'MyHobby',
-  components: {
-    MyGallery,
-    WebGLGallery
-  }
-}
-</script>
 
 <style scoped>
 .wrapper {
