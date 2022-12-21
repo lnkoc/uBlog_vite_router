@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios';
-import { ref, onMounted} from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
@@ -54,6 +54,7 @@ function closed() {
     width: 720px;
     margin: auto;
     min-height: 92vh;
+    overflow-y: auto;
     background-color: rgba(255, 255, 255, 0.7);
 }
 .content {

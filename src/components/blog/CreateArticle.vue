@@ -1,8 +1,10 @@
 <script setup>
 import { reactive } from "vue";
+import { useRouter } from 'vue-router'
 import axios from "axios";
 
 const emit = defineEmits("submited");
+const router = useRouter();
 
 const article = reactive({
     title: "",
@@ -19,7 +21,7 @@ function submit() {
         .catch((err) => {
             console.log(err);
             if (err == 401) {
-                this.$router.replace('/login');
+                router.replace('/login');
             }
         }); 
 }
