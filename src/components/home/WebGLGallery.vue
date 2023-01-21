@@ -6,10 +6,10 @@ import im17 from '@/assets/webgl_min/seventeen.jpg';
 import im10 from '@/assets/webgl_min/ten.jpg';
 import im20 from '@/assets/webgl_min/twenty.jpg';
 
-const SevenDemo = defineAsyncComponent(() => import('@/components/WebGL/SevenDemo.vue'));
-const SeventeenDemo = defineAsyncComponent(() => import('@/components/WebGL/SeventeenDemo.vue'));
-const TenDemo = defineAsyncComponent(() => import('@/components/WebGL/TenDemo.vue'));
-const TwentyDemo = defineAsyncComponent(() => import('@/components/WebGL/TwentyDemo.vue'));
+const SevenDemo = defineAsyncComponent(() => import('@/components/home/WebGL/SevenDemo.vue'));
+const SeventeenDemo = defineAsyncComponent(() => import('@/components/home/WebGL/SeventeenDemo.vue'));
+const TenDemo = defineAsyncComponent(() => import('@/components/home/WebGL/TenDemo.vue'));
+const TwentyDemo = defineAsyncComponent(() => import('@/components/home/WebGL/TwentyDemo.vue'));
 
 const miniatures = ref([im7, im17, im10, im20]);
 const demoActive = ref(false);

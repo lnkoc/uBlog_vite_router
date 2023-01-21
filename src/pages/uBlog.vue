@@ -31,35 +31,21 @@ function closed() {
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="content">
-        <h2>μBlog</h2>
-        <div v-if="showList">
-            <template v-for="item in list" :key="item.ID">
-                <div class="articles">
-                    <div class="title">{{item.TITLE}}</div><br>
+    <h2>μBlog</h2>
+    <div v-if="showList">
+        <template v-for="item in list" :key="item.ID">
+            <div class="articles">
+                <div class="title">{{item.TITLE}}</div><br>
                     {{item.CREATED}}<br><br>
                     {{item.INTRO}}<br><br>
                     <button class="openButton" @click="loadArticle(item.ID, item.CREATED)">Czytaj całość</button>
                 </div><br>
-            </template>
-        </div>
-        <RouterView v-else :articleId="openId" @close="closed" />
+        </template>
     </div>
-  </div>
+    <RouterView v-else :articleId="openId" @close="closed" />
 </template>
 
 <style scoped>
-.wrapper {
-    width: 720px;
-    margin: auto;
-    min-height: 92vh;
-    overflow-y: auto;
-    background-color: rgba(255, 255, 255, 0.7);
-}
-.content {
-    padding: 30px;
-}
 .articles {
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.75);

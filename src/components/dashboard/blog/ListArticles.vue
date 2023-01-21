@@ -1,9 +1,12 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import {ref, onMounted} from 'vue';
 import axios from 'axios';
 
-const emit = defineEmits(["editArticle"]);
+const router = useRouter();
+const editArticle = ref(false);
 const list = ref([]);
+const prop = defineProps(["isAuth"]);
 
 onMounted(() => {
   refresh();
@@ -20,7 +23,8 @@ function refresh() {
 }
 
 function openArticle(id) {
-  emit("editArticle", id);
+    editArticle.value = true;
+    router.replace({path: '/admin/edit/' + id, params: {id}});
 }
 
 function deleteArticle(deleteId) {
@@ -33,12 +37,9 @@ function deleteArticle(deleteId) {
 </script>
 
 <template>
-  <div class="listContainer">
-    <div>
-      <div> 
+  <div v-if="isAuth">
+    <div v-if="!editArticle">
         <h2>Lista artykułów</h2>
-      </div>
-      <div>
         <template v-for="item in list" :key="item.ID">
           <div class="item">
             <h3> {{item.TITLE}}</h3>
@@ -47,16 +48,15 @@ function deleteArticle(deleteId) {
           </div>
           <br><br>
         </template>
-      </div>
     </div>
+    <RouterView v-else @submited="refresh" />
+  </div>
+  <div v-else>
+    Lista artykułów - 401 Brak autentykacji.
   </div>
 </template>
 
 <style scoped>
-.listContainer {
-  padding: 35px;
-  min-height: 83vh;
-}
 .item {
   padding: 20px;
   background-color: aliceblue;

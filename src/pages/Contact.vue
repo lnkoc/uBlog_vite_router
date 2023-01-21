@@ -40,8 +40,7 @@ function submit() {
 </script>
 
 <template>
-    <div class="wrapper">
-        <div class="content">
+
             <h2>Kontakt</h2>
             <form>
                 <label for="email">Twój adres email:</label><br>
@@ -52,21 +51,10 @@ function submit() {
                 <div class="error">{{contentError}}</div><br>
                 <button @click.prevent="submit" class="sendButton">Wyślij</button> {{status}}
             </form>
-        </div>
-    </div> 
+
 </template>
 
 <style scoped>
-.wrapper {
-    width: 720px;
-    margin: auto;
-    min-height: 92vh;
-    overflow-y: auto;
-    background-color: rgba(255, 255, 255, 0.7);
-}
-.content {
-    padding: 30px;
-}
 .generalSet {
     width: 660px;
     padding: 10px;

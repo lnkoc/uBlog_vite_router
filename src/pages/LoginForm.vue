@@ -1,7 +1,9 @@
 <script setup>
+
 import axios from "axios";
 import { reactive, ref } from 'vue';
-const emit = defineEmits(["authenticated"]);
+
+const emit = defineEmits("authenticated");
 const loginData = reactive({
     nickName: "",
     pass: ""
@@ -41,7 +43,7 @@ function wait() {
 }
 
 function getSession() {
-    //todo dopisać szyfrowanie hasła
+    //TODO dopisać szyfrowanie hasła
     axios.get('/getCookie', { params: {
         login: loginData.nickName,
         pass: loginData.pass
@@ -56,40 +58,22 @@ function getSession() {
 </script>
 
 <template>
-    <div class="container">
-        <div class="wrapper">
-            <form class="loginForm">
-                <fieldset>
-                    <legend> Logowanie </legend>
-                    <label for="nickname"> Użytkownik </label><br>
-                    <input type="text" v-model="loginData.nickName" id="nickname" maxlength="25" autofocus> 
-                    <br><br>
-                    <label for="pass"> Hasło </label><br>
-                    <input type="password" v-model="loginData.pass" id="pass" maxlength="25">
-                    <br><br>
-                    <button class="myButton" @click.prevent="logIn">Zaloguj</button>
-                </fieldset>
-            </form>
+    <form class="loginForm">
+        <fieldset>
+            <legend> Logowanie </legend>
+            <label for="nickname"> Użytkownik </label><br>
+            <input type="text" v-model="loginData.nickName" id="nickname" maxlength="25" > 
+            <br><br>
+            <label for="pass"> Hasło </label><br>
+            <input type="password" v-model="loginData.pass" id="pass" maxlength="25">
+            <br><br>
+            <button class="myButton" @click.prevent="logIn">Zaloguj</button>
+        </fieldset>
+    </form>
         {{response}}
-        </div>
-    </div>
 </template>
 
 <style scoped>
-.container {
-    /* position: relative; */
-    min-height: 100vh;
-}
-.wrapper {
-    margin: 0%;
-    width: 720px;
-    height: 50vh;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.7);
-}
 .loginForm {
     display: flex;
     justify-content: center;
@@ -108,6 +92,8 @@ function getSession() {
 }
 .loginForm input {
     padding: 10px;
+    border: 1px solid cornflowerblue;
+    outline: none;
 }
 .myButton {
     width: 200px;
