@@ -1,5 +1,5 @@
 <script setup>
-import {defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from 'vue';
 
 const prop = defineProps(["isAuth"]);
 const CommentsLoader = defineAsyncComponent(() => import('../CommentsLoader.vue'));

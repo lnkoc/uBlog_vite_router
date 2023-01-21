@@ -4,7 +4,7 @@
     </footer>
 </template>
 
-<style>
+<style scoped>
 footer {
     position: static;
     bottom: 0;

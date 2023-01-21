@@ -1,5 +1,5 @@
 <template>
-    <h1>Kilka słów o autorze tej strony...</h1>
+    <h2>Kilka słów o autorze tej strony...</h2>
     <p>
                 Mam na imię Łukasz. Od czasów dzieciństwa, czyli od lat '90-tych ubiegłego stulecia mam styczność z szerokorozumianą 
                 informatyką. Choć początki, jak to zwykle bywa, bywały skromne. Pierwszym komputerem, jaki miałem przyjemność 

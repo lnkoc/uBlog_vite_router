@@ -1,6 +1,7 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue';
 import axios from 'axios';
+import ApprovedComments from '../ApprovedComments.vue';
 
 const prop = defineProps(["id"]);
 const emit = defineEmits(["submited"]);
@@ -61,13 +62,15 @@ function update() {
         <textarea v-model="article.content" class="generalSet" maxlength="3000" id="content" rows="20"></textarea><br>
         <button @click.prevent="update" class="submitButton">Modyfikuj</button> <button @click.prevent="abort" class="abortButton">Anuluj</button>
     </form>
+    <ApprovedComments :articleId="prop.id"/>
 </template>
 
 <style scoped>
 .generalSet {
-    width: 650px;
+    width: 660px;
     padding: 10px;
     box-sizing: border-box;
+    outline: 0px;
 }
 form label {
     font-size: 0.8em;
