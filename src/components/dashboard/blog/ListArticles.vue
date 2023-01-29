@@ -37,7 +37,7 @@ function deleteArticle(deleteId) {
 </script>
 
 <template>
-  <div v-if="isAuth">
+  <div v-if="prop.isAuth">
     <div v-if="!editArticle">
         <h2>Lista artykułów</h2>
         <template v-for="item in list" :key="item.ID">

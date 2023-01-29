@@ -31,7 +31,7 @@ function openDashboard() {
 .wrapper {
     width: 720px;
     margin: auto;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.8);
     min-height: 92vh;
 }
 .content {

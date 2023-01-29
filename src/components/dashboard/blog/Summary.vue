@@ -1,17 +1,25 @@
 <script setup>
-import { defineAsyncComponent } from 'vue';
+import { ref } from 'vue';
+import CommentsLoader from '../CommentsLoader.vue';
+import CommentsBin from '../CommentsBin.vue';
 
 const prop = defineProps(["isAuth"]);
-const CommentsLoader = defineAsyncComponent(() => import('../CommentsLoader.vue'));
+const loadSecond = ref(false);
 
+function firstLoaded() {
+    loadSecond.value = true;
+}
 </script>
 
 <template>
     <div v-if="prop.isAuth">
         <h2>Podsumowanie</h2>
-        <h3>Komentarze do bloga</h3>
+        <h3>Nowe komentarze do wpisów na blogu</h3>
         <CommentsLoader />
-        <!-- TODO dopisać zarządzanie komentarzami w koszu -->
+        <!-- @loaded="firstLoaded" /> -->
+        <h3>Komentarze w koszu</h3>
+        <CommentsBin />
+        <!-- v-if="loadSecond"/> -->
     </div>
     <div v-else>
         Podsumowanie - Błąd 401: brak autentykacji 

@@ -23,7 +23,8 @@ function closePanel() {
         <DashboardHeader @loadComponent="chosen" @logout="closePanel" />
         <div class="wrapper">
             <div class="content">
-                <RouterView @submited="chosen" :isAuth="true" :key="reload" />
+                <RouterView @submited="chosen" :isAuth="true" />
+                <!-- :key="reload" /> -->
             </div>
         </div>
         <DashboardFooter />
