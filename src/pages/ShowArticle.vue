@@ -13,7 +13,7 @@ const article = reactive({
 });
 
 onMounted(() => {
-    axios.get('/getEntireArticle', {params: { ID: prop.articleId}})
+    axios.get('/getBlogArticle', {params: { ID: prop.articleId}})
         .then((res) => {
             let date = res.data[0].CREATED.slice(0,10).split("-").reverse().join("/");
             article.title = res.data[0].TITLE;

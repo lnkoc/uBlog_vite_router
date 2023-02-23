@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue';
-import CommentsLoader from '../CommentsLoader.vue';
-import CommentsBin from '../CommentsBin.vue';
+import { ref, defineAsyncComponent } from 'vue';
+
+const CommentsLoader = defineAsyncComponent(() => import('../CommentsLoader.vue'));
+const CommentsBin = defineAsyncComponent(() => import('../CommentsBin.vue'));
 
 const prop = defineProps(["isAuth"]);
 const loadSecond = ref(false);

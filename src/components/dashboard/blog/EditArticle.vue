@@ -8,7 +8,8 @@ const emit = defineEmits(["submited"]);
 const article = reactive({
     title: "",
     intro: "",
-    content: ""
+    content: "",
+    created: ""
 });
 //TODO sprawdzić czy poniższa jest potrzebna
 const data = ref("");
@@ -22,6 +23,7 @@ onMounted(() => {
             article.title = res.data[0].TITLE;
             article.intro = res.data[0].INTRO;
             article.content = res.data[0].CONTENT;
+            article.created = res.data[0].CREATED;
         })
         .catch((err) => {
             console.log("blad " + err);
@@ -56,7 +58,7 @@ function update() {
     <form>
         <label for="title">Tytuł</label><br>
         <input v-model="article.title" class="generalSet" type="text" maxlength="255" id="titile"><br>
-        <label for="intro">Wstęp</label><br>
+        <label for="intro">Wstęp</label><span>{{ article.created }}</span><br>
         <textarea v-model="article.intro" class="generalSet" maxlength="300" id="intro" rows="4"></textarea><br>
         <label for="content">Treść</label><br>
         <textarea v-model="article.content" class="generalSet" maxlength="3000" id="content" rows="20"></textarea><br>
@@ -66,6 +68,9 @@ function update() {
 </template>
 
 <style scoped>
+span {
+    float: right;
+}
 .generalSet {
     width: 660px;
     padding: 10px;

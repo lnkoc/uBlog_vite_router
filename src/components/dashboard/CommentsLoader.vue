@@ -3,15 +3,15 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const comments = ref([]);
-const emit = defineEmits("loaded");
+// const emit = defineEmits("loaded");
 
 onMounted(() => {
     console.log("ładuję komentarze do zatwierdzenia");
     refresh();
 })
 
-async function refresh() {
-    await axios.post('/getUndoneComments',  {withCredentials: true})
+function refresh() {
+    axios.post('/getUndoneComments',  {withCredentials: true})
         .then((res) => {
             comments.value = res.data;
             if (comments.value.length > 0) {
@@ -20,7 +20,7 @@ async function refresh() {
                     item.CREATED = date; 
                 }
             }
-            emit("loaded");
+            // emit("loaded");
         })
         .catch((err) => {
             console.log("błąd pobierania pełnej listy niezatwierdzonych komentarzy... " + err);

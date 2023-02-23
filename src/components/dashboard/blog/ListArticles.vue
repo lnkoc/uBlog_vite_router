@@ -13,7 +13,7 @@ onMounted(() => {
 })
 
 function refresh() {
-  axios.get("/getList", {withCredentials: true})
+  axios.get("/getArticlesList", {withCredentials: true})
     .then((res) => {
       list.value = res.data;
     })
@@ -43,6 +43,7 @@ function deleteArticle(deleteId) {
         <template v-for="item in list" :key="item.ID">
           <div class="item">
             <h3> {{item.TITLE}}</h3>
+            <span>{{ item.CREATED }}</span>
             <p> {{item.INTRO}}</p>
             <button @click.prevent="openArticle(item.ID)" class="editButton">Edytuj</button> <button @click.prevent="deleteArticle(item.ID)" class="deleteButton">Usuń</button>
           </div>
@@ -57,9 +58,12 @@ function deleteArticle(deleteId) {
 </template>
 
 <style scoped>
+span {
+  float: right;
+}
 .item {
   padding: 20px;
-  background-color: aliceblue;
+  background-color: rgba(255, 255, 255, 0.75);;
 }
 .editButton {
   padding: 10px;

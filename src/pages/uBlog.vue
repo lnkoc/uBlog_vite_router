@@ -9,7 +9,7 @@ const showList = ref(true);
 const openId = ref();
 
 onMounted(() => {
-    axios.get('/getList')
+    axios.get('/getBlogList')
         .then((res) => {
             for (let item in res.data) {
                 let date = res.data[item].CREATED.slice(0,10).split("-").reverse().join("-");

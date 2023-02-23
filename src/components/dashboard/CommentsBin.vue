@@ -9,8 +9,9 @@ onMounted(() => {
     refresh();
 })
 
-async function refresh() {
-    await axios.post('/getBinComments', {withCredentials: true})
+function refresh() {
+    console.log("refresh bin");
+    axios.post('/getBinComments', {withCredentials: true})
         .then((res) => {
             comments.value = res.data;
             if (comments.value.length > 0) {
@@ -24,11 +25,26 @@ async function refresh() {
             console.log("Błąd podczas pobierania komentarzy z kosza " + err);
         })
 }
-function restoreComment(id) {
-
+function restoreComment(commentId) {
+    axios.get('/restoreComment', {params: { commentId: commentId}}, {withCredentials:true})
+        .then((res) => {
+            console.log("przywrócono " + commentId);
+            console.log(res.data);
+            refresh();            
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 }
-function deleteComment(id) {
-
+function deleteComment(commentId) {
+    axios.get('/deleteComment', {params: {commentId: commentId}}, {withCredentials: true})
+        .then((res) => {
+            console.log(res.status + " , " + res.data);
+            refresh();
+        })
+        .catch ((err)=> {
+            console.log(err);
+        })
 }
 </script>
 
